@@ -1,0 +1,89 @@
+module SimpleBackstageStatus
+  VERSION: String
+
+  class Error < StandardError
+  end
+
+  class Client
+    include Dry::Monads[:result]
+
+    @endpoint: String?
+    @service: String?
+    @schema: untyped
+
+    attr_reader endpoint: String?
+    attr_reader service: String?
+    attr_reader schema: untyped
+
+    def initialize: (String endpoint, ?Hash[Symbol, untyped] options) -> void
+
+    def response: () -> Dry::Monads::Result[Net::HTTPResponse, untyped]
+
+    def service_status: () -> Dry::Monads::Result[untyped, untyped]
+
+    private
+
+    def extract_status: (Array[Hash[Symbol, untyped]] services) -> Dry::Monads::Result[untyped, Symbol]
+  end
+
+  module Status
+    OPERATIONAL: Symbol
+    DEGRATED: Symbol
+    PARTIAL_OUTAGE: Symbol
+    MAJOR_OUTAGE: Symbol
+    SCHEDULE_MAINTENANCE: Symbol
+    MAINTENANCE: Symbol
+  end
+
+  class RackServer
+    include SimpleBackstageStatus::ContentLoader
+
+    @app: untyped
+    @options: Hash[Symbol, untyped]
+    @loaders: Hash[Symbol, untyped]
+
+    def initialize: (untyped app, ?Hash[Symbol, untyped] options) -> void
+
+    def call: (Hash[String, untyped] env) -> Array[Integer | Hash[String, String] | Array[String]]
+
+    def content: () -> String
+  end
+
+  class SchemaValidator
+    @schema: untyped
+
+    def initialize: (?schema: untyped) -> void
+
+    def call: (String json) -> Dry::Monads::Result[untyped, untyped]
+  end
+
+  module ContentLoader
+    @loaders: Hash[Symbol, untyped]
+
+    def initialize_loaders!: (Hash[Symbol, untyped] loaders) -> Hash[Symbol, untyped]
+
+    def load_content: (String uri) -> untyped
+
+    class JsonLoader
+      include FileResolver
+
+      def call: (URI uri) -> Hash[untyped, untyped]
+    end
+
+    class YamlLoader
+      include FileResolver
+
+      def call: (URI uri) -> Hash[untyped, untyped]
+    end
+
+    class RubyLoader
+      include FileResolver
+
+      def call: (URI uri) -> Hash[untyped, untyped]
+    end
+
+    module FileResolver
+      def resolve_file_uri: (URI uri) -> String
+    end
+  end
+end

@@ -1,0 +1,98 @@
+#! /usr/bin/env ruby
+
+require "optparse"
+
+#
+# Usage: backstage-status <command> --schema <schema-file> <json-file>
+#
+
+require_relative "../lib/simple_backstage_status/schema_validator"
+require_relative "../lib/simple_backstage_status/content_loaders/ruby_loader"
+require_relative "../lib/simple_backstage_status/content_loaders/yaml_loader"
+require_relative "../lib/simple_backstage_status/schema"
+require_relative "../lib/simple_backstage_status/version"
+
+def main
+  @schema = BackstageStatusSenderSchema
+
+  # rest args is <json_file>
+  command, target = sprout_cmd_and_target(ARGV.dup)
+
+  raise ArgumentError.new "#{command} is invalid command." unless commands.include?(command)
+  
+  if target.nil?
+    puts "Usage: status-validator <target>"
+    raise ArgumentError.new "file not given"
+  elsif File.exist? target.to_s
+    send(command.to_sym, target)
+  else
+    puts "Usage: backstage-status <json-file>"
+    raise StandardError.new "#{target} does not exist"
+  end
+end
+
+#
+# @param [Array] argv
+# @return [String, String]
+#
+def sprout_cmd_and_target(argv)
+  options.parse(argv)
+end
+
+#
+# @return [Array]
+#
+def commands
+  %w[build validate]
+end
+
+#
+# @return [OptionParser]
+#
+def options
+  OptionParser.new do |opts|
+    opts.version = SimpleBackstageStatus::VERSION
+    opts.banner = "Usage: backstage-status <command> --options <target>"
+    opts.on("-s", "--schema [schema]") do |file|
+      if File.exist?(file)
+        @schema = instance_eval File.read(file)
+      end
+    end
+  end
+end
+
+def build(source)
+  types = {
+    ".rb" => "ruby",
+    ".yaml" => "yaml",
+    ".yml" => "yaml"
+  }
+
+  begin
+    loader = types.fetch(File.extname(source))
+    puts Object.const_get("SimpleBackstageStatus::ContentLoader::#{loader.capitalize}Loader").new.call(URI("#{loader}://#{source}")).to_json
+  rescue => e
+    puts e
+    exit 1
+  end
+end
+
+#
+# @param [String]
+# @return [String]
+#
+def validate(target, method_mode = false)
+  result = SimpleBackstageStatus::SchemaValidator
+    .new(schema: @schema).call(File.read(target))
+
+  if method_mode
+    result
+  else
+    result.either(
+      ->(e) { puts "ok"; exit 0 },
+      ->(e) { warn e.failure; exit 1 }
+    )
+  end
+end
+
+main

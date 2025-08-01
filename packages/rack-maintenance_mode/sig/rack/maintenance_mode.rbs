@@ -1,0 +1,48 @@
+module Rack
+  class MaintenanceMode
+    VERSION: String
+
+    interface _CheckerInterface
+      def maintenance_mode?: () -> bool
+    end
+
+    type options = {
+      checker: _CheckerInterface?,
+      status_endpoint: String?,
+      service: String?,
+      file: String?
+    }
+
+    type rack_app = ^(Hash[String, untyped]) -> [Integer, Hash[String, String], Array[String]]
+    type rack_env = Hash[String, untyped]
+    type rack_response = [Integer, Hash[String, String], Array[String]]
+
+    @app: rack_app
+    @maintenance_page: MaintenancePageApp
+    @opts: options
+    @checker: _CheckerInterface
+
+    def initialize: (rack_app app, ?options options) -> void
+    def call: (rack_env env) -> rack_response
+    def maintenance_mode?: () -> bool
+
+    class MaintenancePageApp
+      @options: options
+
+      def initialize: (rack_app app, ?options options) -> void
+      def call: (rack_env env) -> rack_response
+    end
+
+    class StatusChecker
+      include _CheckerInterface
+
+      @endpoint: String
+      @options: Hash[Symbol, untyped]
+
+      attr_reader endpoint: String
+
+      def initialize: (String status_endpoint, ?Hash[Symbol, untyped] options) -> void
+      def maintenance_mode?: () -> bool
+    end
+  end
+end
