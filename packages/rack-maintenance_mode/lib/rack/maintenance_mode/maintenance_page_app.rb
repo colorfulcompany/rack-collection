@@ -8,8 +8,8 @@ module Rack
       def call(env)
         file = @options[:file]
 
-        if file && File.exist?(file)
-          [503, {}, [File.read(file)]]
+        if file && ::File.exist?(file)
+          [503, {}, [::File.read(file)]]
         else
           [503, {}, ["MaintenancePage"]]
         end
