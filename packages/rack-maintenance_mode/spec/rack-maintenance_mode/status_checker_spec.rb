@@ -2,7 +2,7 @@ require "spec_helper"
 
 require "simple_backstage_status/rack_server"
 require_relative "../support/backstage"
-require "URI"
+require "uri"
 
 describe Rack::MaintenanceMode::StatusChecker do
   include Rack::MaintenanceMode::Backstage
