@@ -19,7 +19,7 @@ def main
   command, target = sprout_cmd_and_target(ARGV.dup)
 
   raise ArgumentError.new "#{command} is invalid command." unless commands.include?(command)
-  
+
   if target.nil?
     puts "Usage: status-validator <target>"
     raise ArgumentError.new "file not given"
@@ -89,8 +89,8 @@ def validate(target, method_mode = false)
     result
   else
     result.either(
-      ->(e) { puts "ok"; exit 0 },
-      ->(e) { warn e.failure; exit 1 }
+      ->(e) { puts "ok" and exit 0 },
+      ->(e) { warn e.failure and exit 1 }
     )
   end
 end
