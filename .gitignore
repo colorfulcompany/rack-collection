@@ -1,0 +1,18 @@
+*~
+*.bak
+
+Gemfile.lock
+
+**/*/.bundle/
+**/*/.yardoc
+**/*/_yardoc/
+**/*/coverage/
+**/*/doc/
+**/*/pkg/
+**/*/spec/reports/
+**/*/tmp/
+**/*/vendor/
+
+# moon
+.moon/cache
+.moon/docker
