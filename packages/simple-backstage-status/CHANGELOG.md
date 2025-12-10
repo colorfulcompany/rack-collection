@@ -1,3 +1,7 @@
-## [0.1.0] - 2025-07-10
+## [Unreleased]
 
 - Initial release
+
+## [0.0.0] - 2025-07-10
+
+- concept

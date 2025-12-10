@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = "system state delivering server and client library"
   spec.description = "A library that consists of a rack server, which makes it easy to build a system for managing and distributing the operational status of services, and a client that can receive this information and determine the status of the status after checking it with a predefined schema."
   spec.homepage = "https://github.com/colorfulcompany/rack-collection"
-  spec.required_ruby_version = ">= 3.1.0"
+  spec.required_ruby_version = ">= 3.0.0"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
