@@ -4,7 +4,7 @@ require_relative "content_loader"
 
 module SimpleBackstageStatus
   #
-  # use GcpSimpleStatusBackstage::RackServer, {
+  # use SimpleBackstageStatus::RackServer, {
   #   uri: <String>,
   #   json: <String>,
   #   hash: <Hash>,
