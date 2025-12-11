@@ -29,12 +29,13 @@ describe Rack::MaintenanceMode::StatusChecker do
           }
         )
       )
+      @port = @server.config[:Port]
     }
 
     describe "service exists" do
       it {
         checker = Rack::MaintenanceMode::StatusChecker.new(
-          "http://localhost:4000", {service: "service_a"}
+          "http://localhost:#{@port}", {service: "service_a"}
         )
 
         assert {
@@ -46,7 +47,7 @@ describe Rack::MaintenanceMode::StatusChecker do
     describe "service does not exist" do
       it {
         checker = Rack::MaintenanceMode::StatusChecker.new(
-          "http://localhost:4000", {service: "service_b"}
+          "http://localhost:#{@port}", {service: "service_b"}
         )
 
         assert {
@@ -74,11 +75,12 @@ describe Rack::MaintenanceMode::StatusChecker do
           }
         )
       )
+      @port = @server.config[:Port]
     }
 
     it "service exist" do
       checker = Rack::MaintenanceMode::StatusChecker.new(
-        "http://localhost:4000", {service: "service_a"}
+        "http://localhost:#{@port}", {service: "service_a"}
       )
 
       assert {

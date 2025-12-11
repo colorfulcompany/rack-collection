@@ -55,10 +55,11 @@ describe Rack::MaintenanceMode do
             }
           )
         )
+        @port = @server.config[:Port]
       }
 
       it "not maintained" do
-        @target = maintenance_target({status_endpoint: "http://localhost:4000", service: "service_a"})
+        @target = maintenance_target({status_endpoint: "http://localhost:#{@port}", service: "service_a"})
 
         env = Rack::MockRequest.env_for("/")
         status, _headers, body = @target.call(env)
@@ -68,7 +69,7 @@ describe Rack::MaintenanceMode do
       end
 
       it "expected service not found" do
-        @target = maintenance_target({status_endpoint: "http://localhost:4000", service: "service_b"})
+        @target = maintenance_target({status_endpoint: "http://localhost:#{@port}", service: "service_b"})
 
         env = Rack::MockRequest.env_for("/")
         status, _headers, body = @target.call(env)
@@ -96,10 +97,11 @@ describe Rack::MaintenanceMode do
             }
           )
         )
+        @port = @server.config[:Port]
       }
 
       it "inline page" do
-        @target = maintenance_target({status_endpoint: "http://localhost:4000", service: "service_a"})
+        @target = maintenance_target({status_endpoint: "http://localhost:#{@port}", service: "service_a"})
 
         env = Rack::MockRequest.env_for("/")
         status, _headers, body = @target.call(env)
@@ -112,7 +114,7 @@ describe Rack::MaintenanceMode do
         before {
           @target = maintenance_target(
             {
-              status_endpoint: "http://localhost:4000",
+              status_endpoint: "http://localhost:#{@port}",
               service: "service_a",
               file: File.join(__dir__, "support/maintenance_page.html")
             }

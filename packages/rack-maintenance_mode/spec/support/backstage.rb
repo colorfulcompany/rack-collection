@@ -22,7 +22,7 @@ module Rack
       #
       def start_backstage_server(app)
         server = WEBrick::HTTPServer.new(
-          Port: 4000,
+          Port: 0,
           Logger: WEBrick::Log.new(File::NULL),
           AccessLog: []
         )
