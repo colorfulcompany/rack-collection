@@ -10,9 +10,9 @@ module SimpleBackstageStatus
     #
     def initialize_loaders!(loaders)
       @loaders = {
-        json: ContentLoader::JsonLoader,
-        yaml: ContentLoader::YamlLoader,
-        ruby: ContentLoader::RubyLoader
+        json: ContentLoader::JsonLoader.new,
+        yaml: ContentLoader::YamlLoader.new,
+        ruby: ContentLoader::RubyLoader.new
       }.merge(loaders)
     end
 
@@ -25,7 +25,7 @@ module SimpleBackstageStatus
       loader = @loaders.fetch(u.scheme.to_sym)
 
       if loader
-        content = loader.new.call(u)
+        content = loader.call(u)
         content if content.size > 0
       end
     end

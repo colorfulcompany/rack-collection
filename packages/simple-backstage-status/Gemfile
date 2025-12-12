@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in gcp-simple-status-backstage.gemspec
+# Specify your gem's dependencies in simple-status-backstage.gemspec
 gemspec
 
 gem "rake", "~> 13.0"
@@ -10,6 +10,7 @@ gem "rake", "~> 13.0"
 gem "minitest", "~> 5.16"
 gem "minitest-power_assert", "~> 0.3.1"
 gem "minitest-reporters", "~> 1.7"
+gem "minitest-skip", "~> 0.0.3"
 
 gem "standard", "~> 1.3"
 
