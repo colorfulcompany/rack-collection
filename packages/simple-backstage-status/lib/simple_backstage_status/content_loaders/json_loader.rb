@@ -1,17 +1,17 @@
 require "json"
-require_relative "file_resolver"
+require_relative "../file/loader_base"
 
 module SimpleBackstageStatus
   module ContentLoader
     class JsonLoader
-      include FileResolver
+      include File::LoaderBase
 
       #
       # @param [URI] uri
       # @return [Hash]
       #
       def call(uri)
-        JSON.parse(File.read(resolve_file_uri(uri)))
+        JSON.parse(@reader.call(resolve_file_uri(uri)))
       end
     end
   end

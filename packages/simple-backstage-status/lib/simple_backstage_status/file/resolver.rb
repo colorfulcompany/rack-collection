@@ -1,6 +1,6 @@
 module SimpleBackstageStatus
-  module ContentLoader
-    module FileResolver
+  module File
+    module Resolver
       #
       # @param [URI] uri
       # @return [String]
