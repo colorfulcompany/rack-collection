@@ -32,3 +32,9 @@ tasks:
     command: "bundle exec rake standard"
     deps:
       - install
+  generate_sig:
+    command: |
+      git ls-files lib | \grep \.rb | xargs cat > sig/${MOON_PROJECT_ID}.rbs && \
+      bundle exec sord --rbs sig/${MOON_PROJECT_ID}.rbs
+    deps:
+      - install
