@@ -16,7 +16,7 @@ fileGroups:
 tasks:
   lock-platform:
     command: |
-      bundle lock --add-platform arm64-darwin
+      bundle lock --add-platform arm64-darwin && \
       bundle lock --add-platform x86_64-linux
   config:
     command: "bundle config set path \"vendor/bundle\""
