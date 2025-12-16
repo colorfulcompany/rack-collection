@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Rack middleware for handling maintenance mode with external status monitoring"
   spec.description = "A Rack middleware that provides maintenance mode functionality by monitoring external status endpoints or using custom checkers. Displays customizable maintenance pages when services are under maintenance."
   spec.homepage = "https://github.com/colorfulcompany/rack-collection/blob/main/packages/rack-maintenance_mode"
-  spec.required_ruby_version = ">= 3.0.0"
+  spec.required_ruby_version = ">= 3.1.0"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 

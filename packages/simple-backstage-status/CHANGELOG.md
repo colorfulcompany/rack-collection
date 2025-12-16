@@ -1,6 +1,7 @@
-## [0.1.2] - 2025-12-16
+## [0.1.2] - 2025-12-17
 
 - add generate rbs task and RBS
+- drop Ruby 3.0 support
 
 ## [0.1.1] - 2025-12-12
 
