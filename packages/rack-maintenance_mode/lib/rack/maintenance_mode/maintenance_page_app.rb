@@ -1,10 +1,18 @@
 module Rack
   class MaintenanceMode
     class MaintenancePageApp
+      #
+      # @param [#call] app
+      # @param [Hash] options
+      #
       def initialize(app, options = {})
         @options = options
       end
 
+      #
+      # @param [Hash] env
+      # @return [Array(Integer, Hash, Array<String>)]
+      #
       def call(env)
         file = @options[:file]
 

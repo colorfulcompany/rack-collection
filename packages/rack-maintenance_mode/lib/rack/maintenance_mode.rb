@@ -22,7 +22,7 @@ module Rack
     #   checker: Config.new
     # }
     #
-    # @param [Object] app - Rack application
+    # @param [#call] app - Rack application
     # @param [Hash] options
     #
     def initialize(app, options = {})
@@ -37,6 +37,10 @@ module Rack
         end
     end
 
+    #
+    # @param [Hash] env
+    # @return [Integer, Hash, Array<String>]
+    #
     def call(env)
       if maintenance_mode?
         @maintenance_page.call(env)

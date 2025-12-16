@@ -5,25 +5,27 @@ module SimpleBackstageStatus
   end
 
   class Client
-    include Dry::Monads[:result]
+    # _@param_ `endpoint`
+    # 
+    # _@param_ `options`
+    def initialize: (String endpoint, ?::Hash[untyped, untyped] options) -> void
 
-    @endpoint: String?
-    @service: String?
-    @schema: untyped
+    # sord warn - Net::HTTPResponse wasn't able to be resolved to a constant in this project
+    def response: () -> Dry::Monads::Result[Net::HTTPResponse]
 
-    attr_reader endpoint: String?
-    attr_reader service: String?
-    attr_reader schema: untyped
+    # sord warn - Dry::Schema::Params wasn't able to be resolved to a constant in this project
+    def service_status: () -> Dry::Monads::Result[Dry::Schema::Params]
 
-    def initialize: (String endpoint, ?Hash[Symbol, untyped] options) -> void
+    # sord warn - Dry::Schema::Params wasn't able to be resolved to a constant in this project
+    # _@param_ `services`
+    def extract_status: (::Array[Dry::Schema::Params] services) -> Dry::Schema::Monads[Symbol, String]
 
-    def response: () -> Dry::Monads::Result[Net::HTTPResponse, untyped]
+    attr_reader endpoint: String
 
-    def service_status: () -> Dry::Monads::Result[untyped, untyped]
+    attr_reader service: String
 
-    private
-
-    def extract_status: (Array[Hash[Symbol, untyped]] services) -> Dry::Monads::Result[untyped, Symbol]
+    # sord warn - Dry::Schema::Params wasn't able to be resolved to a constant in this project
+    attr_reader schema: Dry::Schema::Params
   end
 
   module Status
@@ -35,55 +37,138 @@ module SimpleBackstageStatus
     MAINTENANCE: Symbol
   end
 
+  # 
+  # use SimpleBackstageStatus::RackServer, {
+  #   uri: <String>,
+  #   json: <String>,
+  #   hash: <Hash>,
+  #   loaders: Object
+  # }
   class RackServer
     include SimpleBackstageStatus::ContentLoader
 
-    @app: untyped
-    @options: Hash[Symbol, untyped]
-    @loaders: Hash[Symbol, untyped]
+    # sord duck - #call looks like a duck type, replacing with untyped
+    # sord warn - untyped is probably not a type, but using anyway
+    # sord warn - untyped wasn't able to be resolved to a constant in this project
+    # _@param_ `app`
+    # 
+    # _@param_ `options`
+    def initialize: (untyped app, ?::Hash[Symbol, untyped] options) -> void
 
-    def initialize: (untyped app, ?Hash[Symbol, untyped] options) -> void
-
-    def call: (Hash[String, untyped] env) -> Array[Integer | Hash[String, String] | Array[String]]
+    # _@param_ `env`
+    def call: (::Hash[untyped, untyped] env) -> [Integer, ::Hash[untyped, untyped], ::Array[String]]
 
     def content: () -> String
+
+    # _@param_ `loaders`
+    def initialize_loaders!: (::Hash[untyped, untyped] loaders) -> ::Hash[untyped, untyped]
+
+    # sord warn - JSON wasn't able to be resolved to a constant in this project
+    # _@param_ `uri`
+    def load_content: (String uri) -> JSON
   end
 
-  class SchemaValidator
-    @schema: untyped
+  module File
+    module Resolver
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
+      def resolve_file_uri: (URI uri) -> String
+    end
 
-    def initialize: (?schema: untyped) -> void
+    module LoaderBase
+      include SimpleBackstageStatus::File::Resolver
 
-    def call: (String json) -> Dry::Monads::Result[untyped, untyped]
+      # sord omit - no YARD type given for "ttl:", using untyped
+      # _@param_ `reader`
+      def initialize: (?reader: File::IntervalReader, ?ttl: untyped) -> void
+
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
+      def resolve_file_uri: (URI uri) -> String
+    end
+
+    class IntervalReader
+      TTL: Numeric
+
+      # _@param_ `ttl`
+      # 
+      # _@param_ `file`
+      def initialize: (?ttl: Numeric, ?file: File) -> void
+
+      # _@param_ `path`
+      # 
+      # _@param_ `now`
+      def call: (String path, ?now: Time) -> String
+
+      # _@return_ — - UTC
+      def current_time: () -> Time
+    end
   end
 
   module ContentLoader
-    @loaders: Hash[Symbol, untyped]
+    # _@param_ `loaders`
+    def initialize_loaders!: (::Hash[untyped, untyped] loaders) -> ::Hash[untyped, untyped]
 
-    def initialize_loaders!: (Hash[Symbol, untyped] loaders) -> Hash[Symbol, untyped]
-
-    def load_content: (String uri) -> untyped
+    # sord warn - JSON wasn't able to be resolved to a constant in this project
+    # _@param_ `uri`
+    def load_content: (String uri) -> JSON
 
     class JsonLoader
-      include FileResolver
+      include SimpleBackstageStatus::File::LoaderBase
 
-      def call: (URI uri) -> Hash[untyped, untyped]
-    end
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
+      def call: (URI uri) -> ::Hash[untyped, untyped]
 
-    class YamlLoader
-      include FileResolver
+      # sord omit - no YARD type given for "ttl:", using untyped
+      # _@param_ `reader`
+      def initialize: (?reader: File::IntervalReader, ?ttl: untyped) -> void
 
-      def call: (URI uri) -> Hash[untyped, untyped]
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
+      def resolve_file_uri: (URI uri) -> String
     end
 
     class RubyLoader
-      include FileResolver
+      include SimpleBackstageStatus::File::LoaderBase
 
-      def call: (URI uri) -> Hash[untyped, untyped]
-    end
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
+      def call: (URI uri) -> ::Hash[untyped, untyped]
 
-    module FileResolver
+      # sord omit - no YARD type given for "ttl:", using untyped
+      # _@param_ `reader`
+      def initialize: (?reader: File::IntervalReader, ?ttl: untyped) -> void
+
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
       def resolve_file_uri: (URI uri) -> String
     end
+
+    class YamlLoader
+      include SimpleBackstageStatus::File::LoaderBase
+
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
+      def call: (URI uri) -> ::Hash[untyped, untyped]
+
+      # sord omit - no YARD type given for "ttl:", using untyped
+      # _@param_ `reader`
+      def initialize: (?reader: File::IntervalReader, ?ttl: untyped) -> void
+
+      # sord warn - URI wasn't able to be resolved to a constant in this project
+      # _@param_ `uri`
+      def resolve_file_uri: (URI uri) -> String
+    end
+  end
+
+  class SchemaValidator
+    # sord warn - BackstageStatusSenderSchema wasn't able to be resolved to a constant in this project
+    # _@param_ `schema`
+    def initialize: (?schema: BackstageStatusSenderSchema) -> void
+
+    # sord warn - Dry::Monads::Result wasn't able to be resolved to a constant in this project
+    # _@param_ `json`
+    def call: (String json) -> Dry::Monads::Result
   end
 end

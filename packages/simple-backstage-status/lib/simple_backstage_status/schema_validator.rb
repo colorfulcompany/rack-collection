@@ -7,7 +7,7 @@ Dry::Schema.load_extensions(:monads)
 module SimpleBackstageStatus
   class SchemaValidator
     #
-    # @param [Object] schema
+    # @param [BackstageStatusSenderSchema] schema
     #
     def initialize(schema: BackstageStatusSenderSchema)
       @schema = schema

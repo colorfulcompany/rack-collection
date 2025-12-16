@@ -14,6 +14,7 @@ module Rack
         @endpoint = status_endpoint
         @options = options
       end
+      # @return [String]
       attr_reader :endpoint
 
       #

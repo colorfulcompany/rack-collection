@@ -8,12 +8,16 @@ module SimpleBackstageStatus
   #   uri: <String>,
   #   json: <String>,
   #   hash: <Hash>,
-  #   content_loader: Object
+  #   loaders: Object
   # }
   #
   class RackServer
     include SimpleBackstageStatus::ContentLoader
 
+    #
+    # @param [#call] app
+    # @param [Hash<Symbol, untyped>] options
+    #
     def initialize(app, options = {})
       @app = app
       @options = options
@@ -21,6 +25,10 @@ module SimpleBackstageStatus
       initialize_loaders!(options.fetch(:loaders) { {} })
     end
 
+    #
+    # @param [Hash] env
+    # @return [Array(Integer, Hash, Array<String>)]
+    #
     def call(env)
       [200, {"Content-Type" => "application/json"}, [content]]
     end

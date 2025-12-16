@@ -1,21 +1,26 @@
 module SimpleBackstageStatus
   module File
     class IntervalReader
+      # @return [Numeric]
       TTL = 10 # seconds
 
       #
-      # @param [Number] ttl
+      # @param [Numeric] ttl
       # @param [File] file
       #
       def initialize(ttl: TTL, file: ::File)
+        # @return [Numeric]
         @ttl = ttl
+        # @return [File]
         @file = file
+        # @return [Hash]
         @cache = {}
       end
 
       #
       # @param [String] path
       # @param [Time] now
+      # @return [String]
       #
       def call(path, now: current_time)
         now.freeze

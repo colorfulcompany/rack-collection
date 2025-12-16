@@ -16,7 +16,12 @@ module SimpleBackstageStatus
       @service = options[:service]
       @schema = options.fetch(:schema) { BackstageStatusReceiverSchema }
     end
-    attr_reader :endpoint, :service, :schema
+    # @return [String]
+    attr_reader :endpoint
+    # @return [String]
+    attr_reader :service
+    # @return [Dry::Schema::Params]
+    attr_reader :schema
 
     #
     # @return [Dry::Monads::Result<Net::HTTPResponse>]
@@ -44,7 +49,7 @@ module SimpleBackstageStatus
     end
 
     #
-    # @return [Dry::Monads::Result<>]
+    # @return [Dry::Monads::Result<Dry::Schema::Params>]
     #
     def service_status
       result = response
@@ -69,8 +74,8 @@ module SimpleBackstageStatus
     end
 
     #
-    # @param [Array] services
-    # @return [Dry::Schema::Monads<Symbol | String>]
+    # @param [Array<Dry::Schema::Params>] services
+    # @return [Dry::Schema::Monads<Symbol, String>]
     #
     def extract_status(services)
       info_service = services.find { |s|
