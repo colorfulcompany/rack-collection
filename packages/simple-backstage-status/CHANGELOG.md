@@ -1,3 +1,7 @@
+## [0.1.3] - 2025-12-17
+
+- fix content header
+
 ## [0.1.2] - 2025-12-17
 
 - add generate rbs task and RBS
