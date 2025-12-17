@@ -25,23 +25,36 @@ end
 #
 def start_app(app)
   @server = WEBrick::HTTPServer.new(
-    Port: 4000,
+    Port: 0,
     Logger: WEBrick::Log.new(File::NULL),
     AccessLog: []
   )
   @server.mount "/", Rackup::Handler::WEBrick, app
 
   Thread.new { @server.start }
+
+  setup_client(@server)
+end
+
+#
+# @param [WEBrick::HTTPServer] server
+# @return [SimpleBackstageStatus::Client]
+#
+def setup_client(server)
+  port = server.config[:Port]
+  @client = SimpleBackstageStatus::Client.new("http://localhost:#{port}", service: :service_a)
 end
 
 describe SimpleBackstageStatus do
-  before {
-    @client = SimpleBackstageStatus::Client.new("http://localhost:4000", service: :service_a)
-  }
+  describe "no servers waiting" do
+    before {
+      @client = SimpleBackstageStatus::Client.new("http://localhost:4000", service: :service_a)
+    }
 
-  it "server not connected" do
-    assert {
-      @client.service_status.failure.instance_of? Errno::ECONNREFUSED
+    it {
+      assert {
+        @client.service_status.failure.instance_of? Errno::ECONNREFUSED
+      }
     }
   end
 
