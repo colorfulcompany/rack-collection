@@ -30,7 +30,7 @@ module SimpleBackstageStatus
     # @return [Array(Integer, Hash, Array<String>)]
     #
     def call(env)
-      [200, {"Content-Type" => "application/json"}, [content]]
+      [200, {"content-type" => "application/json"}, [content]]
     end
 
     #
