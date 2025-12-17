@@ -2,6 +2,9 @@
 
 require "spec_helper"
 
+require "rack/lint"
+require "rack/show_exceptions"
+
 require "webrick"
 require "rackup"
 require "simple_backstage_status/rack_server"
@@ -14,6 +17,8 @@ require "simple_backstage_status/client"
 #
 def build_app(middleware, opts = {})
   Rack::Builder.new do
+    use Rack::ShowExceptions
+    use Rack::Lint
     use middleware, opts
     run -> {}
   end
