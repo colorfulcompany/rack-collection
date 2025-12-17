@@ -15,8 +15,12 @@ A Rack middleware that provides maintenance mode functionality by monitoring ext
 
 ```ruby
 # Add to your Gemfile
-gem "simple-backstage-status", git: "https://github.com/colorfulcompany/rack-collection", glob: "simple-backstage-status/*.gemspec"
-gem "rack-maintenance_mode"
+gem "simple-backstage-status",
+  github: "colorfulcompany/rack-collection",
+  glob: "packages/simple-backstage-status/*.gemspec"
+gem "rack-maintenance_mode",
+  github: "colorfulcompany/rack-collection",
+  glob: "packages/rack-maintenance_mode/*.gemspec"
 ```
 
 Then execute:

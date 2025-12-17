@@ -16,7 +16,9 @@ A Ruby library for building simple backstage (service status management) systems
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'simple-backstage-status'
+gem "simple-backstage-status",
+  github: "colorfulcompany/rack-collection",
+  glob: "packages/simple-backstage-status/*.gemspec"
 ```
 
 And then execute:
