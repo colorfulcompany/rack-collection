@@ -1,6 +1,7 @@
 require_relative "content_loaders/json_loader"
 require_relative "content_loaders/yaml_loader"
 require_relative "content_loaders/ruby_loader"
+require_relative "file/interval_reader"
 
 module SimpleBackstageStatus
   module ContentLoader
@@ -8,11 +9,11 @@ module SimpleBackstageStatus
     # @param [Hash] loaders
     # @return [Hash]
     #
-    def initialize_loaders!(loaders)
+    def initialize_loaders!(loaders, ttl: File::IntervalReader::TTL)
       @loaders = {
-        json: ContentLoader::JsonLoader.new,
-        yaml: ContentLoader::YamlLoader.new,
-        ruby: ContentLoader::RubyLoader.new
+        json: ContentLoader::JsonLoader.new(ttl: ttl),
+        yaml: ContentLoader::YamlLoader.new(ttl: ttl),
+        ruby: ContentLoader::RubyLoader.new(ttl: ttl)
       }.merge(loaders)
     end
 

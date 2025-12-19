@@ -1,6 +1,7 @@
 require "json"
 require_relative "statuses"
 require_relative "content_loader"
+require_relative "file/interval_reader"
 
 module SimpleBackstageStatus
   #
@@ -22,7 +23,10 @@ module SimpleBackstageStatus
       @app = app
       @options = options
 
-      initialize_loaders!(options.fetch(:loaders) { {} })
+      initialize_loaders!(
+        options.fetch(:loaders) { {} },
+        ttl: options.fetch(:ttl) { File::IntervalReader::TTL }
+      )
     end
 
     #
