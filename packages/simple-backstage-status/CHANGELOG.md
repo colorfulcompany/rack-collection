@@ -1,3 +1,7 @@
+## [0.2.0] - 2025-12-19
+
+- can receive ttl param for SimpleBackstageStatus::ContentLoader
+
 ## [0.1.3] - 2025-12-17
 
 - fix content header
