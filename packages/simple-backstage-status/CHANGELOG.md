@@ -1,3 +1,7 @@
+## [0.2.2] - 2025-12-24
+
+- make Logging API closer to default Logger's API
+
 ## [0.2.1] - 2025-12-23
 
 - add Logger
