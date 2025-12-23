@@ -8,10 +8,14 @@ module SimpleBackstageStatus
 
       #
       # @param [File::IntervalReader] reader
+      # @param [Numeric] ttl
+      # @param [Logger] logger
       #
-      def initialize(reader: IntervalReader, ttl: IntervalReader::TTL)
-        @reader = reader.new(ttl: ttl)
+      def initialize(reader: IntervalReader, ttl: IntervalReader::TTL, logger: nil)
+        @reader = reader.new(ttl: ttl, logger: logger)
+        @logger = logger
       end
+      attr_reader :logger
     end
   end
 end

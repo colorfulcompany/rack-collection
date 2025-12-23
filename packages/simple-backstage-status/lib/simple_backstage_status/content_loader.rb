@@ -9,11 +9,11 @@ module SimpleBackstageStatus
     # @param [Hash] loaders
     # @return [Hash]
     #
-    def initialize_loaders!(loaders, ttl: File::IntervalReader::TTL)
+    def initialize_loaders!(loaders, ttl: File::IntervalReader::TTL, logger: nil)
       @loaders = {
-        json: ContentLoader::JsonLoader.new(ttl: ttl),
-        yaml: ContentLoader::YamlLoader.new(ttl: ttl),
-        ruby: ContentLoader::RubyLoader.new(ttl: ttl)
+        json: ContentLoader::JsonLoader.new(ttl: ttl, logger: logger),
+        yaml: ContentLoader::YamlLoader.new(ttl: ttl, logger: logger),
+        ruby: ContentLoader::RubyLoader.new(ttl: ttl, logger: logger)
       }.merge(loaders)
     end
 

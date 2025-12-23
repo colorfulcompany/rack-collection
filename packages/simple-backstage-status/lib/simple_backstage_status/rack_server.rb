@@ -25,7 +25,8 @@ module SimpleBackstageStatus
 
       initialize_loaders!(
         options.fetch(:loaders) { {} },
-        ttl: options.fetch(:ttl) { File::IntervalReader::TTL }
+        ttl: options.fetch(:ttl) { File::IntervalReader::TTL },
+        logger: options[:logger]
       )
     end
 
