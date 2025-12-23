@@ -1,3 +1,7 @@
+## [0.2.1] - 2025-12-23
+
+- add Logger
+
 ## [0.2.0] - 2025-12-19
 
 - can receive ttl param for SimpleBackstageStatus::ContentLoader
