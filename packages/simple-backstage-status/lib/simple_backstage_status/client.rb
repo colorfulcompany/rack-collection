@@ -32,7 +32,7 @@ module SimpleBackstageStatus
       u = URI(endpoint)
 
       begin
-        res = Net::HTTP.start(u.host, u.port) do |http|
+        res = Net::HTTP.start(u.host, u.port, use_ssl: u.scheme == "https") do |http|
           path = (u.path.size > 0) ? u.path : "/"
           http.get(path, {"Accept" => "application/json"})
         end
