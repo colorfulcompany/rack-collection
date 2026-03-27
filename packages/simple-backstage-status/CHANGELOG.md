@@ -1,3 +1,7 @@
+## [0.2.3] - 2026-03-27
+
+- can switch to https if URI scheme `https'
+
 ## [0.2.2] - 2025-12-24
 
 - make Logging API closer to default Logger's API
