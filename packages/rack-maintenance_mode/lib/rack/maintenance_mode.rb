@@ -13,7 +13,8 @@ module Rack
     #
     # use Rack::MaintenanceMode, {
     #   status_endpoint: "http://example.com/status.json",
-    #   service: "service_a"
+    #   service: "service_a",
+    #   ttl: 30.0
     # }
     #
     # with some Config object with `#maintenance_mode?' method
@@ -33,7 +34,7 @@ module Rack
         if @opts[:checker]&.respond_to?(:maintenance_mode?)
           @opts[:checker]
         else
-          StatusChecker.new(@opts[:status_endpoint], {service: @opts[:service]})
+          StatusChecker.new(@opts[:status_endpoint], @opts.slice(:service, :ttl))
         end
     end
 
